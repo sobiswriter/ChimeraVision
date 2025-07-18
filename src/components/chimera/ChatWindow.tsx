@@ -6,16 +6,15 @@ import type { ChatMessage } from "@/lib/types";
 import { TitleBar } from "./TitleBar";
 import { MessageList } from "./MessageList";
 import { ChatInput } from "./ChatInput";
-import { askAI } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
+import { chimeraApi } from "@/lib/chimera-api";
 
 type ChatWindowProps = {
   onClose: () => void;
   opacity: number;
-  onOpacityChange: (value: number) => void;
 };
 
-export default function ChatWindow({ onClose, opacity, onOpacityChange }: ChatWindowProps) {
+export default function ChatWindow({ onClose, opacity }: ChatWindowProps) {
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: "init",
@@ -31,8 +30,21 @@ export default function ChatWindow({ onClose, opacity, onOpacityChange }: ChatWi
   const windowRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
+  useEffect(() => {
+    // Listen for new messages from the backend
+    const unsubscribe = chimeraApi.onNewMessage((message) => {
+      setIsTyping(false);
+      setMessages((prevMessages) => [...prevMessages, message]);
+    });
+
+    // Cleanup the listener when the component unmounts
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-    if ((e.target as HTMLElement).closest('button, [role="dialog"], input')) {
+    if ((e.target as HTMLElement).closest('button, [role="dialog"], input, [role="slider"]')) {
       return; 
     }
     setIsDragging(true);
@@ -72,20 +84,21 @@ export default function ChatWindow({ onClose, opacity, onOpacityChange }: ChatWi
       author: "user",
       text,
     };
+    // Add user message instantly for responsiveness
     setMessages((prev) => [...prev, userMessage]);
     setIsTyping(true);
 
     try {
-      const aiMessage = await askAI(text);
-      setMessages((prev) => [...prev, aiMessage]);
+      // Send the message to the backend puppeteer
+      chimeraApi.sendUserMessage(text);
     } catch (error) {
+      setIsTyping(false);
+      console.error("Error sending message to backend:", error);
       toast({
         variant: "destructive",
-        title: "AI Error",
-        description: "Could not get a response from the AI.",
+        title: "Connection Error",
+        description: "Could not send message to the main application.",
       });
-    } finally {
-      setIsTyping(false);
     }
   };
 
@@ -93,8 +106,9 @@ export default function ChatWindow({ onClose, opacity, onOpacityChange }: ChatWi
     <div
       ref={windowRef}
       className={cn(
-        "relative flex h-[600px] max-h-[80vh] w-[400px] max-w-[90vw] flex-col overflow-hidden rounded-lg border border-slate-200/20 text-card-foreground shadow-lg shadow-primary/20",
-        isDragging && "cursor-grabbing"
+        "relative flex h-[600px] max-h-[80vh] w-[400px] max-w-[90vw] flex-col overflow-hidden rounded-lg text-card-foreground shadow-lg",
+        isDragging && "cursor-grabbing",
+        "bg-transparent"
       )}
       style={{ 
         transform: `translate(${position.x}px, ${position.y}px)`,
