@@ -27,7 +27,7 @@ export function MessageList({ messages, isTyping }: MessageListProps) {
   return (
     <div
       ref={scrollAreaRef}
-      className="flex-1 space-y-4 overflow-y-auto p-4 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/30"
+      className="flex-1 space-y-4 overflow-y-auto overflow-x-hidden p-4 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/30"
     >
       <AnimatePresence>
         {messages.map((msg) => (

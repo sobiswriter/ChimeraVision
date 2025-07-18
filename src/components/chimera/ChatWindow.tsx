@@ -93,16 +93,14 @@ export default function ChatWindow({ onClose, opacity, onOpacityChange }: ChatWi
     <div
       ref={windowRef}
       className={cn(
-        "relative flex h-[600px] max-h-[80vh] w-[400px] max-w-[90vw] flex-col overflow-hidden rounded-lg border border-slate-200/20 text-card-foreground shadow-lg shadow-primary/20 backdrop-blur-sm",
+        "relative flex h-[600px] max-h-[80vh] w-[400px] max-w-[90vw] flex-col overflow-hidden rounded-lg border border-slate-200/20 text-card-foreground shadow-lg shadow-primary/20",
         isDragging && "cursor-grabbing"
       )}
       style={{ 
         transform: `translate(${position.x}px, ${position.y}px)`,
-        '--tw-bg-opacity': opacity,
-        backgroundColor: `hsl(var(--card) / var(--tw-bg-opacity))`,
        } as React.CSSProperties}
     >
-      <TitleBar onMouseDown={handleMouseDown} onClose={onClose} opacity={opacity} onOpacityChange={onOpacityChange} />
+      <TitleBar onMouseDown={handleMouseDown} onClose={onClose} />
       <MessageList messages={messages} isTyping={isTyping} />
       <ChatInput onSubmit={handleSendMessage} disabled={isTyping} />
     </div>
