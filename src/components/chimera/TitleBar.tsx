@@ -1,14 +1,19 @@
 "use client";
 
-import { Minus, X } from "lucide-react";
+import { Minus, Sun, X } from "lucide-react";
 import { Button } from "../ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Label } from "../ui/label";
+import { Slider } from "../ui/slider";
 
 type TitleBarProps = {
   onMouseDown: (e: React.MouseEvent<HTMLDivElement>) => void;
   onClose: () => void;
+  opacity: number;
+  onOpacityChange: (opacity: number) => void;
 };
 
-export function TitleBar({ onMouseDown, onClose }: TitleBarProps) {
+export function TitleBar({ onMouseDown, onClose, opacity, onOpacityChange }: TitleBarProps) {
   return (
     <div
       onMouseDown={onMouseDown}
@@ -22,12 +27,49 @@ export function TitleBar({ onMouseDown, onClose }: TitleBarProps) {
         <span>Chip</span>
       </div>
       <div className="flex items-center gap-1">
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-7 w-7 text-slate-400 hover:bg-slate-700 hover:text-white"
+              aria-label="Settings"
+              onClick={(e) => e.stopPropagation()} // Prevent drag on click
+            >
+              <Sun className="h-4 w-4" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-56" onClick={(e) => e.stopPropagation()}>
+            <div className="grid gap-4">
+              <div className="space-y-2">
+                <h4 className="font-medium leading-none">Appearance</h4>
+                <p className="text-sm text-muted-foreground">
+                  Adjust the window opacity.
+                </p>
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="opacity">Opacity</Label>
+                <Slider
+                  id="opacity"
+                  min={0.1}
+                  max={1}
+                  step={0.05}
+                  defaultValue={[opacity]}
+                  onValueChange={(value) => onOpacityChange(value[0])}
+                />
+              </div>
+            </div>
+          </PopoverContent>
+        </Popover>
         <Button
           variant="ghost"
           size="icon"
           className="h-7 w-7 text-slate-400 hover:bg-slate-700 hover:text-white"
           aria-label="Minimize"
-          onClick={(e) => e.stopPropagation()} // Prevent drag on click
+          onClick={(e) => {
+            e.stopPropagation(); // Prevent drag on click
+            onClose();
+          }}
         >
           <Minus className="h-4 w-4" />
         </Button>

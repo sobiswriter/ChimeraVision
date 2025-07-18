@@ -22,6 +22,7 @@ export default function ChatWindow({ onClose }: ChatWindowProps) {
     },
   ]);
   const [isTyping, setIsTyping] = useState(false);
+  const [backgroundOpacity, setBackgroundOpacity] = useState(0.75);
   
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
@@ -30,8 +31,9 @@ export default function ChatWindow({ onClose }: ChatWindowProps) {
   const { toast } = useToast();
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-    if ((e.target as HTMLElement).closest('button')) {
-      return; // Don't drag if clicking a button
+    // Don't drag if clicking a button or an element inside the popover
+    if ((e.target as HTMLElement).closest('button, [role="dialog"]')) {
+      return; 
     }
     setIsDragging(true);
     dragOffset.current = {
@@ -87,16 +89,24 @@ export default function ChatWindow({ onClose }: ChatWindowProps) {
     }
   };
 
+  const handleOpacityChange = (value: number) => {
+    setBackgroundOpacity(value);
+  }
+
   return (
     <div
       ref={windowRef}
       className={cn(
-        "relative flex h-[600px] max-h-[80vh] w-[400px] max-w-[90vw] flex-col overflow-hidden rounded-lg border border-slate-600 bg-slate-900/75 text-card-foreground shadow-lg shadow-primary/20 backdrop-blur-md",
+        "relative flex h-[600px] max-h-[80vh] w-[400px] max-w-[90vw] flex-col overflow-hidden rounded-lg border border-slate-600 text-card-foreground shadow-lg shadow-primary/20 backdrop-blur-md",
         isDragging && "cursor-grabbing"
       )}
-      style={position.x !== 0 || position.y !== 0 ? { transform: `translate(${position.x}px, ${position.y}px)` } : {}}
+      style={{ 
+        transform: `translate(${position.x}px, ${position.y}px)`,
+        '--tw-bg-opacity': backgroundOpacity,
+        backgroundColor: `hsl(var(--card) / var(--tw-bg-opacity))`,
+       } as React.CSSProperties}
     >
-      <TitleBar onMouseDown={handleMouseDown} onClose={onClose}/>
+      <TitleBar onMouseDown={handleMouseDown} onClose={onClose} opacity={backgroundOpacity} onOpacityChange={handleOpacityChange} />
       <MessageList messages={messages} isTyping={isTyping} />
       <ChatInput onSubmit={handleSendMessage} disabled={isTyping} />
     </div>
