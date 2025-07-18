@@ -7,6 +7,7 @@ import { LauncherIcon } from "./LauncherIcon";
 
 export default function AppController() {
   const [isChatOpen, setChatOpen] = useState(false);
+  const [backgroundOpacity, setBackgroundOpacity] = useState(0.75);
 
   return (
     <div className="fixed bottom-4 right-4 z-50">
@@ -21,7 +22,11 @@ export default function AppController() {
             className="absolute bottom-0 right-0"
             style={{ transformOrigin: 'bottom right' }}
           >
-            <ChatWindow onClose={() => setChatOpen(false)} />
+            <ChatWindow 
+              onClose={() => setChatOpen(false)} 
+              opacity={backgroundOpacity}
+              onOpacityChange={setBackgroundOpacity}
+            />
           </motion.div>
         ) : (
           <motion.div

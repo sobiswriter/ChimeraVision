@@ -11,9 +11,11 @@ import { useToast } from "@/hooks/use-toast";
 
 type ChatWindowProps = {
   onClose: () => void;
+  opacity: number;
+  onOpacityChange: (value: number) => void;
 };
 
-export default function ChatWindow({ onClose }: ChatWindowProps) {
+export default function ChatWindow({ onClose, opacity, onOpacityChange }: ChatWindowProps) {
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: "init",
@@ -22,7 +24,6 @@ export default function ChatWindow({ onClose }: ChatWindowProps) {
     },
   ]);
   const [isTyping, setIsTyping] = useState(false);
-  const [backgroundOpacity, setBackgroundOpacity] = useState(0.75);
   
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
@@ -31,7 +32,7 @@ export default function ChatWindow({ onClose }: ChatWindowProps) {
   const { toast } = useToast();
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-    if ((e.target as HTMLElement).closest('button, [role="dialog"]')) {
+    if ((e.target as HTMLElement).closest('button, [role="dialog"], input')) {
       return; 
     }
     setIsDragging(true);
@@ -88,10 +89,6 @@ export default function ChatWindow({ onClose }: ChatWindowProps) {
     }
   };
 
-  const handleOpacityChange = (value: number) => {
-    setBackgroundOpacity(value);
-  }
-
   return (
     <div
       ref={windowRef}
@@ -101,11 +98,11 @@ export default function ChatWindow({ onClose }: ChatWindowProps) {
       )}
       style={{ 
         transform: `translate(${position.x}px, ${position.y}px)`,
-        '--tw-bg-opacity': backgroundOpacity,
+        '--tw-bg-opacity': opacity,
         backgroundColor: `hsl(var(--card) / var(--tw-bg-opacity))`,
        } as React.CSSProperties}
     >
-      <TitleBar onMouseDown={handleMouseDown} onClose={onClose} opacity={backgroundOpacity} onOpacityChange={handleOpacityChange} />
+      <TitleBar onMouseDown={handleMouseDown} onClose={onClose} opacity={opacity} onOpacityChange={onOpacityChange} />
       <MessageList messages={messages} isTyping={isTyping} />
       <ChatInput onSubmit={handleSendMessage} disabled={isTyping} />
     </div>
