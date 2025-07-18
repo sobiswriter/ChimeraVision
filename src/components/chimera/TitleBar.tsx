@@ -17,7 +17,7 @@ export function TitleBar({ onMouseDown, onClose, opacity, onOpacityChange }: Tit
   return (
     <div
       onMouseDown={onMouseDown}
-      className="flex h-10 cursor-move items-center justify-between rounded-t-lg bg-slate-900/90 px-3 text-sm font-medium text-slate-200"
+      className="flex h-10 cursor-move items-center justify-between rounded-t-lg bg-slate-900/50 px-3 text-sm font-medium text-slate-200"
     >
       <div className="flex items-center gap-2">
         <span className="relative flex h-3 w-3">
@@ -32,7 +32,7 @@ export function TitleBar({ onMouseDown, onClose, opacity, onOpacityChange }: Tit
             <Button
               variant="ghost"
               size="icon"
-              className="h-7 w-7 text-slate-400 hover:bg-slate-700 hover:text-white"
+              className="h-7 w-7 text-slate-400 hover:bg-slate-700/80 hover:text-white"
               aria-label="Settings"
               onClick={(e) => e.stopPropagation()} // Prevent drag on click
             >
@@ -64,7 +64,7 @@ export function TitleBar({ onMouseDown, onClose, opacity, onOpacityChange }: Tit
         <Button
           variant="ghost"
           size="icon"
-          className="h-7 w-7 text-slate-400 hover:bg-slate-700 hover:text-white"
+          className="h-7 w-7 text-slate-400 hover:bg-slate-700/80 hover:text-white"
           aria-label="Minimize"
           onClick={(e) => {
             e.stopPropagation(); // Prevent drag on click
@@ -76,7 +76,7 @@ export function TitleBar({ onMouseDown, onClose, opacity, onOpacityChange }: Tit
         <Button
           variant="ghost"
           size="icon"
-          className="h-7 w-7 text-slate-400 hover:bg-red-500 hover:text-white"
+          className="h-7 w-7 text-slate-400 hover:bg-red-500/80 hover:text-white"
           aria-label="Close"
           onClick={(e) => {
             e.stopPropagation(); // Prevent drag on click

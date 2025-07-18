@@ -97,7 +97,7 @@ export default function ChatWindow({ onClose }: ChatWindowProps) {
     <div
       ref={windowRef}
       className={cn(
-        "relative flex h-[600px] max-h-[80vh] w-[400px] max-w-[90vw] flex-col overflow-hidden rounded-lg border border-slate-600 text-card-foreground shadow-lg shadow-primary/20 backdrop-blur-md",
+        "relative flex h-[600px] max-h-[80vh] w-[400px] max-w-[90vw] flex-col overflow-hidden rounded-lg border border-slate-200/20 text-card-foreground shadow-lg shadow-primary/20 backdrop-blur",
         isDragging && "cursor-grabbing"
       )}
       style={{ 

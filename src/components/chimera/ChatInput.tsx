@@ -25,14 +25,14 @@ export function ChatInput({ onSubmit, disabled }: ChatInputProps) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex items-center gap-2 border-t border-slate-600 p-2"
+      className="flex items-center gap-2 border-t border-slate-200/20 p-2"
     >
       <Input
         type="text"
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
         placeholder="Ask Chip anything..."
-        className="h-10 flex-1 border-0 bg-transparent font-code text-base placeholder-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0"
+        className="h-10 flex-1 border-0 bg-transparent font-code text-base text-slate-100 placeholder-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0"
         disabled={disabled}
       />
       <Button
