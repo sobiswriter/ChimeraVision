@@ -91,10 +91,10 @@ export default function ChatWindow({ onClose }: ChatWindowProps) {
     <div
       ref={windowRef}
       className={cn(
-        "absolute flex h-[600px] max-h-[80vh] w-[400px] max-w-[90vw] flex-col overflow-hidden rounded-lg border border-slate-600 bg-slate-900/75 text-card-foreground shadow-lg shadow-primary/20 backdrop-blur-md",
+        "relative flex h-[600px] max-h-[80vh] w-[400px] max-w-[90vw] flex-col overflow-hidden rounded-lg border border-slate-600 bg-slate-900/75 text-card-foreground shadow-lg shadow-primary/20 backdrop-blur-md",
         isDragging && "cursor-grabbing"
       )}
-      style={position.x !== 0 || position.y !== 0 ? { top: `${position.y}px`, left: `${position.x}px` } : {}}
+      style={position.x !== 0 || position.y !== 0 ? { transform: `translate(${position.x}px, ${position.y}px)` } : {}}
     >
       <TitleBar onMouseDown={handleMouseDown} onClose={onClose}/>
       <MessageList messages={messages} isTyping={isTyping} />
