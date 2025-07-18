@@ -12,7 +12,7 @@ export function TitleBar({ onMouseDown, onClose }: TitleBarProps) {
   return (
     <div
       onMouseDown={onMouseDown}
-      className="flex h-10 cursor-move items-center justify-between rounded-t-lg bg-slate-900/50 backdrop-blur-sm px-3 text-sm font-medium text-slate-100"
+      className="flex h-10 cursor-move items-center justify-between rounded-t-lg bg-slate-800/20 backdrop-blur-sm border-b border-slate-700/30 px-3 text-sm font-medium text-slate-100"
     >
       <div className="flex items-center gap-2">
         <span className="relative flex h-3 w-3">
