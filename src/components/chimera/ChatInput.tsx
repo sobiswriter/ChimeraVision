@@ -32,7 +32,7 @@ export function ChatInput({ onSubmit, disabled }: ChatInputProps) {
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
         placeholder="Ask Chip anything..."
-        className="h-10 flex-1 border-0 bg-transparent font-code text-base text-slate-100 placeholder-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0"
+        className="h-10 flex-1 border-0 bg-transparent font-code text-base text-slate-400 placeholder-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0"
         disabled={disabled}
       />
       <Button
