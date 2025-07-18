@@ -9,7 +9,11 @@ import { ChatInput } from "./ChatInput";
 import { askAI } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
 
-export default function ChatWindow() {
+type ChatWindowProps = {
+  onClose: () => void;
+};
+
+export default function ChatWindow({ onClose }: ChatWindowProps) {
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: "init",
@@ -24,18 +28,6 @@ export default function ChatWindow() {
   const dragOffset = useRef({ x: 0, y: 0 });
   const windowRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
-
-  useEffect(() => {
-    // Center the window initially
-    if (windowRef.current) {
-      const { innerWidth, innerHeight } = window;
-      const { offsetWidth, offsetHeight } = windowRef.current;
-      setPosition({
-        x: (innerWidth - offsetWidth) / 2,
-        y: (innerHeight - offsetHeight) / 2,
-      });
-    }
-  }, []);
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     if ((e.target as HTMLElement).closest('button')) {
@@ -102,9 +94,9 @@ export default function ChatWindow() {
         "absolute flex h-[600px] max-h-[80vh] w-[400px] max-w-[90vw] flex-col overflow-hidden rounded-lg border border-slate-600 bg-slate-900/75 text-card-foreground shadow-lg shadow-primary/20 backdrop-blur-md",
         isDragging && "cursor-grabbing"
       )}
-      style={{ top: `${position.y}px`, left: `${position.x}px` }}
+      style={position.x !== 0 || position.y !== 0 ? { top: `${position.y}px`, left: `${position.x}px` } : {}}
     >
-      <TitleBar onMouseDown={handleMouseDown} />
+      <TitleBar onMouseDown={handleMouseDown} onClose={onClose}/>
       <MessageList messages={messages} isTyping={isTyping} />
       <ChatInput onSubmit={handleSendMessage} disabled={isTyping} />
     </div>

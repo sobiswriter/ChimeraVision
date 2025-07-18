@@ -1,9 +1,9 @@
-import ChatWindow from '@/components/chimera/ChatWindow';
+import AppController from '@/components/chimera/AppController';
 
 export default function Home() {
   return (
-    <main className="relative w-full h-screen overflow-hidden p-4 flex items-center justify-center">
-      <ChatWindow />
+    <main className="relative w-full h-screen overflow-hidden">
+      <AppController />
     </main>
   );
 }

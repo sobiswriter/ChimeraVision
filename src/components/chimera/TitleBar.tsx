@@ -5,9 +5,10 @@ import { Button } from "../ui/button";
 
 type TitleBarProps = {
   onMouseDown: (e: React.MouseEvent<HTMLDivElement>) => void;
+  onClose: () => void;
 };
 
-export function TitleBar({ onMouseDown }: TitleBarProps) {
+export function TitleBar({ onMouseDown, onClose }: TitleBarProps) {
   return (
     <div
       onMouseDown={onMouseDown}
@@ -35,7 +36,10 @@ export function TitleBar({ onMouseDown }: TitleBarProps) {
           size="icon"
           className="h-7 w-7 text-slate-400 hover:bg-red-500 hover:text-white"
           aria-label="Close"
-          onClick={(e) => e.stopPropagation()} // Prevent drag on click
+          onClick={(e) => {
+            e.stopPropagation(); // Prevent drag on click
+            onClose();
+          }}
         >
           <X className="h-4 w-4" />
         </Button>
