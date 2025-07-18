@@ -31,7 +31,6 @@ export default function ChatWindow({ onClose }: ChatWindowProps) {
   const { toast } = useToast();
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-    // Don't drag if clicking a button or an element inside the popover
     if ((e.target as HTMLElement).closest('button, [role="dialog"]')) {
       return; 
     }
@@ -97,7 +96,7 @@ export default function ChatWindow({ onClose }: ChatWindowProps) {
     <div
       ref={windowRef}
       className={cn(
-        "relative flex h-[600px] max-h-[80vh] w-[400px] max-w-[90vw] flex-col overflow-hidden rounded-lg border border-slate-200/20 text-card-foreground shadow-lg shadow-primary/20 backdrop-blur",
+        "relative flex h-[600px] max-h-[80vh] w-[400px] max-w-[90vw] flex-col overflow-hidden rounded-lg border border-slate-200/20 text-card-foreground shadow-lg shadow-primary/20 backdrop-blur-sm",
         isDragging && "cursor-grabbing"
       )}
       style={{ 
