@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import type { ChatMessage } from "@/lib/types";
 import { MessageItem } from "./MessageItem";
 import { TypingIndicator } from "./TypingIndicator";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 type MessageListProps = {
   messages: ChatMessage[];
@@ -27,19 +27,23 @@ export function MessageList({ messages, isTyping }: MessageListProps) {
   return (
     <div
       ref={scrollAreaRef}
-      className="flex-1 space-y-4 overflow-y-auto p-4"
+      className="flex-1 space-y-4 overflow-y-auto p-4 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-slate-700 [&::-webkit-scrollbar-thumb]:rounded-full"
     >
-      {messages.map((msg, index) => (
-        <motion.div
-          key={msg.id}
-          initial="hidden"
-          animate="visible"
-          variants={variants}
-          transition={{ duration: 0.3, delay: index * 0.1 }}
-        >
-          <MessageItem message={msg} />
-        </motion.div>
-      ))}
+      <AnimatePresence>
+        {messages.map((msg) => (
+          <motion.div
+            key={msg.id}
+            layout
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
+            variants={variants}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+          >
+            <MessageItem message={msg} />
+          </motion.div>
+        ))}
+      </AnimatePresence>
       {isTyping && <TypingIndicator />}
       <div ref={bottomRef} />
     </div>
