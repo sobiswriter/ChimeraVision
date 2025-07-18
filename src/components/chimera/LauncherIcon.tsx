@@ -13,7 +13,7 @@ export function LauncherIcon({ onOpen, className }: LauncherIconProps) {
     <button
       onClick={onOpen}
       className={cn(
-        "z-10 flex h-14 w-14 items-center justify-center rounded-full bg-slate-900/70 transition-all duration-300 ease-in-out hover:bg-slate-900 hover:shadow-lg hover:shadow-primary/30",
+        "z-10 flex h-14 w-14 items-center justify-center rounded-full bg-slate-800/20 backdrop-blur-sm border border-slate-700/30 transition-all duration-300 ease-in-out hover:bg-slate-700/50 hover:shadow-lg hover:shadow-primary/30",
         className
       )}
       aria-label="Open Chat"
