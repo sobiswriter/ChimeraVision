@@ -14,7 +14,7 @@ export function MessageItem({ message }: MessageItemProps) {
   return (
     <div
       className={cn(
-        "flex w-full items-end gap-2 animate-in fade-in slide-in-from-bottom-4 duration-200 ease-out",
+        "flex w-full items-end gap-2",
         isUser ? "justify-end" : "justify-start"
       )}
     >
