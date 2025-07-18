@@ -12,9 +12,10 @@ import { chimeraApi } from "@/lib/chimera-api";
 type ChatWindowProps = {
   onClose: () => void;
   opacity: number;
+  onOpacityChange: (opacity: number) => void;
 };
 
-export default function ChatWindow({ onClose, opacity }: ChatWindowProps) {
+export default function ChatWindow({ onClose, opacity, onOpacityChange }: ChatWindowProps) {
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: "init",
@@ -31,17 +32,20 @@ export default function ChatWindow({ onClose, opacity }: ChatWindowProps) {
   const { toast } = useToast();
 
   useEffect(() => {
-    // Listen for new messages from the backend
-    const unsubscribe = chimeraApi.onNewMessage((message) => {
+    const handleNewMessage = (message: ChatMessage) => {
       setIsTyping(false);
       setMessages((prevMessages) => [...prevMessages, message]);
-    });
+    };
 
-    // Cleanup the listener when the component unmounts
+    // Set up the listener using the handler function.
+    const unsubscribe = chimeraApi.onNewMessage(handleNewMessage);
+
+    // Return a cleanup function to remove the listener.
     return () => {
       unsubscribe();
     };
   }, []);
+
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     if ((e.target as HTMLElement).closest('button, [role="dialog"], input, [role="slider"]')) {
@@ -107,14 +111,20 @@ export default function ChatWindow({ onClose, opacity }: ChatWindowProps) {
       ref={windowRef}
       className={cn(
         "relative flex h-[600px] max-h-[80vh] w-[400px] max-w-[90vw] flex-col overflow-hidden rounded-lg text-card-foreground shadow-lg",
-        isDragging && "cursor-grabbing",
-        "bg-transparent"
+        isDragging && "cursor-grabbing"
       )}
       style={{ 
         transform: `translate(${position.x}px, ${position.y}px)`,
+        backgroundColor: `rgba(15, 23, 42, ${opacity})`,
+        backdropFilter: 'blur(4px)',
        } as React.CSSProperties}
     >
-      <TitleBar onMouseDown={handleMouseDown} onClose={onClose} />
+      <TitleBar 
+        onMouseDown={handleMouseDown} 
+        onClose={onClose} 
+        onOpacityChange={onOpacityChange}
+        currentOpacity={opacity}
+      />
       <MessageList messages={messages} isTyping={isTyping} />
       <ChatInput onSubmit={handleSendMessage} disabled={isTyping} />
     </div>
