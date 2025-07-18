@@ -12,14 +12,14 @@ export function TitleBar({ onMouseDown, onClose }: TitleBarProps) {
   return (
     <div
       onMouseDown={onMouseDown}
-      className="flex h-10 cursor-move items-center justify-between rounded-t-lg bg-transparent px-3 text-sm font-medium text-slate-200"
+      className="flex h-10 cursor-move items-center justify-between rounded-t-lg bg-slate-900/50 backdrop-blur-sm px-3 text-sm font-medium text-slate-100"
     >
       <div className="flex items-center gap-2">
         <span className="relative flex h-3 w-3">
           <span className="absolute inline-flex h-full w-full animate-pulse-slow rounded-full bg-green-400 opacity-75"></span>
           <span className="relative inline-flex h-3 w-3 rounded-full bg-green-500"></span>
         </span>
-        <span>Chip</span>
+        <span style={{ textShadow: '0 0 5px rgba(0,0,0,0.7)' }}>Chip</span>
       </div>
       <div className="flex items-center gap-1">
         <Button
