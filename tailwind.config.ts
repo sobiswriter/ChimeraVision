@@ -12,7 +12,7 @@ export default {
       fontFamily: {
         body: ['Inter', 'sans-serif'],
         headline: ['Inter', 'sans-serif'],
-        code: ['monospace'],
+        code: ['"JetBrains Mono"', 'monospace'],
       },
       colors: {
         background: 'hsl(var(--background))',
@@ -92,11 +92,16 @@ export default {
           '0%, 100%': { opacity: '0.2' },
           '50%': { opacity: '1' },
         },
+        'pulse-slow': {
+          '0%, 100%': { opacity: 1, transform: 'scale(1)' },
+          '50%': { opacity: 0.5, transform: 'scale(1.2)' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         'pulse-dot': 'pulse-dot 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'pulse-slow': 'pulse-slow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       },
     },
   },

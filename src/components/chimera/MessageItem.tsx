@@ -14,7 +14,7 @@ export function MessageItem({ message }: MessageItemProps) {
   return (
     <div
       className={cn(
-        "flex w-full items-end gap-2 animate-in fade-in slide-in-from-bottom-4 duration-500 ease-out",
+        "flex w-full items-end gap-2 animate-in fade-in slide-in-from-bottom-4 duration-200 ease-out",
         isUser ? "justify-end" : "justify-start"
       )}
     >
@@ -25,7 +25,7 @@ export function MessageItem({ message }: MessageItemProps) {
           isUser ? "bg-primary" : "bg-slate-700"
         )}
       >
-        <p className="text-sm leading-relaxed">{message.text}</p>
+        <p className="font-code text-sm leading-relaxed">{message.text}</p>
       </div>
     </div>
   );

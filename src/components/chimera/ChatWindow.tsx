@@ -99,7 +99,7 @@ export default function ChatWindow() {
     <div
       ref={windowRef}
       className={cn(
-        "absolute flex h-[600px] max-h-[80vh] w-[400px] max-w-[90vw] flex-col overflow-hidden rounded-lg border border-slate-600 bg-card/80 text-card-foreground shadow-2xl backdrop-blur-sm",
+        "absolute flex h-[600px] max-h-[80vh] w-[400px] max-w-[90vw] flex-col overflow-hidden rounded-lg border border-slate-600 bg-slate-900/75 text-card-foreground shadow-lg shadow-primary/20 backdrop-blur-md",
         isDragging && "cursor-grabbing"
       )}
       style={{ top: `${position.y}px`, left: `${position.x}px` }}
